@@ -1,6 +1,5 @@
 import { MailIcon, PhoneIcon, PinIcon } from "../../components/Icons";
-import TaggedPhoto from "../../components/TaggedPhoto";
-import { company, contact, credentials, featuredProjects } from "../../lib/content";
+import { company, contact, credentials } from "../../lib/content";
 
 export const metadata = {
   title: "Contact",
@@ -9,16 +8,11 @@ export const metadata = {
 };
 
 export default function Contact() {
-  // The Cory Mine fire alarm photo, framed on its left-hand panels. Falls back to the first featured project.
-  const coryProject = featuredProjects.find((project) => project.id === "nutrien-cory");
-  const photoProject = coryProject ?? featuredProjects[0];
-  const photoFocus = coryProject ? "18% 55%" : photoProject.focus;
-
   return (
     <>
       <section>
         <div className="wrap grid gap-x-14 gap-y-12 py-14 sm:py-16 lg:grid-cols-12 lg:py-24">
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-7">
             <h1 className="text-[2.75rem] leading-[1.05] tracking-[-0.022em] sm:text-[3.5rem] xl:text-[4rem]">
               Let’s work together
             </h1>
@@ -57,17 +51,6 @@ export default function Contact() {
               </li>
             </ul>
           </div>
-
-          <TaggedPhoto
-            photo={photoProject.photo}
-            alt={photoProject.alt}
-            site={photoProject.siteLabel}
-            detail={photoProject.title}
-            focus={photoFocus}
-            sizes="(min-width: 64rem) 38rem, 100vw"
-            priority
-            className="aspect-[4/3] lg:col-span-6 lg:aspect-auto lg:min-h-[32rem]"
-          />
         </div>
       </section>
 
