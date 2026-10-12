@@ -1,0 +1,223 @@
+@import "tailwindcss";
+
+/*
+  Design tokens. Tailwind v4 reads this block and generates the matching
+  utilities: bg-ink, text-steel, border-rule, font-condensed and so on.
+  Change a value here and it changes everywhere.
+*/
+@theme {
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-ink: #0f1c2e; /* text and dark bands */
+  --color-ink-deep: #0a1422; /* footer */
+  --color-steel: #4d5a6a; /* secondary text on light surfaces */
+  --color-haze: #b9c5d3; /* secondary text on dark surfaces */
+  --color-mist: #f2f5f8; /* tinted surface */
+  --color-rule: #d6dde5; /* hairlines */
+  --color-signal: #0a66a6; /* links and buttons on light surfaces */
+  --color-signal-deep: #084f82;
+  --color-arc: #2196c4; /* the original site accent, used on dark surfaces */
+}
+
+/* The font variables are set on <html> by next/font in layout.js. */
+@theme inline {
+  --font-sans: var(--font-fira-sans), ui-sans-serif, system-ui, "Segoe UI", Arial, sans-serif;
+  --font-condensed: var(--font-fira-condensed), "Arial Narrow", Arial, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-white);
+    color: var(--color-ink);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Anchored sections stop below the sticky header instead of under it. */
+  [id] {
+    scroll-margin-top: 6.5rem;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: var(--color-white);
+  }
+
+  ::selection {
+    background: var(--color-signal);
+    color: var(--color-white);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Page container: 80rem wide with a gutter that grows with the screen. */
+  .wrap {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 80rem;
+    padding-inline: 1.25rem;
+  }
+
+  @media (width >= 40rem) {
+    .wrap {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .wrap {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    border-radius: 3px;
+    border: 1.5px solid transparent;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.25;
+    white-space: nowrap;
+    transition:
+      background-color 150ms,
+      border-color 150ms,
+      color 150ms;
+  }
+
+  .btn-primary {
+    background: var(--color-signal);
+    color: var(--color-white);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-signal-deep);
+  }
+
+  .btn-outline {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+  }
+
+  .btn-outline:hover {
+    background: var(--color-ink);
+    color: var(--color-white);
+  }
+
+  /* Inline text link: underlined in the accent colour so it reads as a link without relying on colour alone. */
+  .text-link {
+    text-decoration: underline;
+    text-decoration-color: var(--color-signal);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+    transition: color 150ms;
+  }
+
+  .text-link:hover {
+    color: var(--color-signal);
+  }
+
+  .on-dark .text-link {
+    text-decoration-color: var(--color-arc);
+  }
+
+  .on-dark .text-link:hover {
+    color: var(--color-arc);
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 100;
+    border-radius: 3px;
+    border: 2px solid var(--color-ink);
+    background: var(--color-white);
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  /*
+    Home page hero. On wide screens the text lines up with the page container
+    while the photo runs to the right edge of the window.
+  */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-copy {
+    padding-inline: 1.25rem;
+  }
+
+  @media (width >= 40rem) {
+    .hero-copy {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .hero {
+      grid-template-columns:
+        minmax(2.5rem, 1fr)
+        minmax(0, 39rem)
+        minmax(0, 36rem)
+        minmax(2.5rem, 1fr);
+    }
+
+    .hero-copy {
+      grid-column: 2;
+      padding-inline: 0 2.5rem;
+    }
+
+    .hero-photo {
+      grid-column: 3 / -1;
+    }
+  }
+}
